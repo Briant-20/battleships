@@ -30,3 +30,16 @@ def define_grid():
         grid = y_axis
     return grid
 
+def player_grid(positions_dictionary):
+    grid = define_grid()
+    y = -1
+    for row in grid:
+        x = 0
+        y += 1
+        for peg in row:
+            if y in positions_dictionary and positions_dictionary[y] == x:
+                peg = "*"
+            print(peg ,end="  ")
+            x += 1
+        print()
+player_grid({0:0,1:1,4:4})
