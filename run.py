@@ -1,3 +1,4 @@
+import random
 def get_player_choice():
     print("Enter coordinates for x axis")
     player_choice_x = input()
@@ -14,4 +15,10 @@ def get_player_choice():
                 )
     except ValueError as e:
         print(f"Invalid data: {e}, please try again\n")
+
 get_player_choice()
+def get_computer_choice():
+    computer_choice_x = random.randint(0, 4)
+    computer_choice_y = random.randint(0, 4)
+    print(computer_choice_x, computer_choice_y)
+get_computer_choice()
