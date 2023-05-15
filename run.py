@@ -93,3 +93,4 @@ def player_grid(positions_dictionary):
             print(peg ,end="  ")
             x += 1
         print()
+player_grid(get_player_choice())
