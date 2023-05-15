@@ -20,18 +20,12 @@ def get_player_choice():
                 raise ValueError(
                     f"You need to enter a value between 0 and 4"
                     )
-            if player_choice_y in player_choices[1] and player_choices[1][player_choice_y] == player_choice_x:
-                raise ValueError(
-                    f"You cannot enter the same coordinates twice, try again"
-                )
-            elif player_choice_y in player_choices[2] and player_choices[2][player_choice_y] == player_choice_x:
-                raise ValueError(
-                    f"You cannot enter the same coordinates twice, try again"
-                )
-            elif player_choice_y in player_choices[3] and player_choices[3][player_choice_y] == player_choice_x:
-                raise ValueError(
-                    f"You cannot enter the same coordinates twice, try again"
-                )
+            for j in range(3):
+                j +=1
+                if player_choice_y in player_choices[j] and player_choices[j][player_choice_y] == player_choice_x:
+                    raise ValueError(
+                        f"You cannot enter the same coordinates twice, try again"
+                    )
         except ValueError as e:
             print(f"Invalid data: {e}, please try again\n")
             continue
@@ -52,20 +46,16 @@ def get_computer_choice():
         computer_choice_x = random.randint(0, 4)
         computer_choice_y = random.randint(0, 4)
         try:
-            if computer_choice_y in computer_choices[0] and computer_choices[0][computer_choice_y] == computer_choice_x:
-                    raise ValueError(
-                    )
-            elif computer_choice_y in computer_choices[1] and computer_choices[1][computer_choice_y] == computer_choice_x:
-                    raise ValueError(
-                    )
-            elif computer_choice_y in computer_choices[2] and computer_choices[2][computer_choice_y] == computer_choice_x:
-                    raise ValueError(
-                    )
+            for j in range(3):
+                if computer_choice_y in computer_choices[j] and computer_choices[j][computer_choice_y] == computer_choice_x:
+                        raise ValueError(
+                        )
         except ValueError as e:
             continue
         computer_choice = {computer_choice_y:computer_choice_x}
         computer_choices[i] = computer_choice
         i += 1
+    print(computer_choices)
 
 def define_grid():
     y_axis = []
@@ -84,12 +74,10 @@ def player_grid(positions_dictionary):
         x = 0
         y += 1
         for peg in row:
-            if str(y) in positions_dictionary[1] and positions_dictionary[1][str(y)] == str(x):
-                peg = "*"
-            elif str(y) in positions_dictionary[2] and positions_dictionary[2][str(y)] == str(x):
-                peg = "*"
-            elif str(y) in positions_dictionary[3] and positions_dictionary[3][str(y)] == str(x):
-                peg = "*"
+            for i in range(3):
+                i +=1
+                if str(y) in positions_dictionary[i] and positions_dictionary[i][str(y)] == str(x):
+                    peg = "*"
             print(peg ,end="  ")
             x += 1
         print()
