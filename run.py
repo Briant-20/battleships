@@ -1,12 +1,12 @@
 import random
-def get_player_choice():
+def get_player_choice(num_of_ships):
     player_choices = {
-        1:{"":""},
-        2:{"":""},
-        3:{"":""}
     }
+    for i in range(num_of_ships):
+             player_choice = {"":""}
+             player_choices[i] = player_choice
     i = 0
-    while i < 3:
+    while i < num_of_ships:
         print("Enter coordinates for y axis")
         player_choice_y = input()
         print("Enter coordinates for x axis")
@@ -20,8 +20,7 @@ def get_player_choice():
                 raise ValueError(
                     f"You need to enter a value between 0 and 4"
                     )
-            for j in range(3):
-                j +=1
+            for j in range(num_of_ships):
                 if player_choice_y in player_choices[j] and player_choices[j][player_choice_y] == player_choice_x:
                     raise ValueError(
                         f"You cannot enter the same coordinates twice, try again"
@@ -29,24 +28,24 @@ def get_player_choice():
         except ValueError as e:
             print(f"Invalid data: {e}, please try again\n")
             continue
-        i += 1
         player_choice = {player_choice_y:player_choice_x}
         player_choices[i] = player_choice
+        i += 1
+    print(player_choices)
     return player_choices
     
-
-def get_computer_choice():
+def get_computer_choice(num_of_ships):
     computer_choices = {
-        0:{"":""},
-        1:{"":""},
-        2:{"":""}
     }
+    for i in range(num_of_ships):
+             computer_choice = {"":""}
+             computer_choices[i] = computer_choice
     i = 0
-    while i < 3:
+    while i < num_of_ships:
         computer_choice_x = random.randint(0, 4)
         computer_choice_y = random.randint(0, 4)
         try:
-            for j in range(3):
+            for j in range(num_of_ships):
                 if computer_choice_y in computer_choices[j] and computer_choices[j][computer_choice_y] == computer_choice_x:
                         raise ValueError(
                         )
@@ -67,18 +66,18 @@ def define_grid():
         grid = y_axis
     return grid
 
-def player_grid(positions_dictionary):
+def player_grid(positions_dictionary,num_of_ships):
     grid = define_grid()
     y = -1
     for row in grid:
         x = 0
         y += 1
         for peg in row:
-            for i in range(3):
-                i +=1
+            for i in range(num_of_ships):
                 if str(y) in positions_dictionary[i] and positions_dictionary[i][str(y)] == str(x):
                     peg = "*"
             print(peg ,end="  ")
             x += 1
         print()
-player_grid(get_player_choice())
+get_computer_choice(3)
+player_grid(get_player_choice(3),3)
