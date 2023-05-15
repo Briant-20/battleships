@@ -1,5 +1,5 @@
 import random
-def get_player_choice(num_of_ships):
+def get_player_choice(num_of_ships,grid_size):
     player_choices = {
     }
     for i in range(num_of_ships):
@@ -12,13 +12,13 @@ def get_player_choice(num_of_ships):
         print("Enter coordinates for x axis")
         player_choice_x = input()
         try:
-            if int(player_choice_x) > 4 or int(player_choice_y) > 4:
+            if int(player_choice_x) > grid_size -1 or int(player_choice_y) > grid_size -1:
                 raise ValueError(
-                    f"You need to enter a value between 0 and 4"
+                    f"You need to enter a value between 0 and {grid_size-1} inclusive"
                     )
             elif int(player_choice_x) < 0 or int(player_choice_y) < 0:
                 raise ValueError(
-                    f"You need to enter a value between 0 and 4"
+                    f"You need to enter a value between 0 and {grid_size-1} inclusive"
                     )
             for j in range(num_of_ships):
                 if player_choice_y in player_choices[j] and player_choices[j][player_choice_y] == player_choice_x:
@@ -56,18 +56,18 @@ def get_computer_choice(num_of_ships):
         i += 1
     print(computer_choices)
 
-def define_grid():
+def define_grid(grid_size):
     y_axis = []
-    for i in range(5):
+    for i in range(grid_size):
         x_axis = []
-        for i in range(5):
+        for i in range(grid_size):
             x_axis.append(0)
         y_axis.append(x_axis)
         grid = y_axis
     return grid
 
-def player_grid(positions_dictionary,num_of_ships):
-    grid = define_grid()
+def player_grid(positions_dictionary,num_of_ships,grid_size):
+    grid = define_grid(grid_size)
     y = -1
     for row in grid:
         x = 0
@@ -80,4 +80,4 @@ def player_grid(positions_dictionary,num_of_ships):
             x += 1
         print()
 get_computer_choice(3)
-player_grid(get_player_choice(3),3)
+player_grid(get_player_choice(3,5),3,5)
