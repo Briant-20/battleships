@@ -1,4 +1,8 @@
 import random
+attack_positions = {
+            }
+attack_position = {"":""}
+p = 0
 class GameArea:
     def __init__(self,num_of_ships,grid_size,positions_dictionary,type):
           self.num_of_ships = num_of_ships
@@ -32,9 +36,10 @@ class GameArea:
             print()
 
 class Choices:
-    def __init__(self,num_of_ships,grid_size):
+    def __init__(self,num_of_ships,grid_size,p):
          self.num_of_ships = num_of_ships
          self.grid_size = grid_size
+         self.p = p
     def get_player_choice(self):
         player_choices = {
         }
@@ -90,7 +95,35 @@ class Choices:
             computer_choices[i] = computer_choice
             i += 1
         return computer_choices
-choices = Choices(3,5)
+    
+    def get_player_attack_position(self):
+            self.p+=1
+            print("Enter coordinates to attack on the y axis")
+            player_choice_y = input()
+            print("Enter coordinates to attack on the x axis")
+            player_choice_x = input()
+            try:
+                if int(player_choice_x) > self.grid_size -1 or int(player_choice_y) > self.grid_size -1:
+                    raise ValueError(
+                        f"You need to enter a value between 0 and {self.grid_size-1} inclusive"
+                        )
+                elif int(player_choice_x) < 0 or int(player_choice_y) < 0:
+                    raise ValueError(
+                        f"You need to enter a value between 0 and {self.grid_size-1} inclusive"
+                        )
+                for j in range(p):
+                    if player_choice_y in attack_positions[j] and attack_positions[j][player_choice_y] == player_choice_x:
+                        raise ValueError(
+                            f"You cannot enter the same coordinates twice, try again"
+                        )
+            except ValueError as e:
+                print(f"Invalid data: {e}, please try again\n")
+            attack_position = {player_choice_y:player_choice_x}
+            attack_positions[p] = attack_position
+            return attack_positions
+    
+choices = Choices(3,5,0)
+print(choices.get_player_attack_position())
 player_grid = GameArea(3,5,choices.get_player_choice(),"Player")
 player_grid.print_grid()
 computer_grid = GameArea(3,5,choices.get_computer_choice(),"Computer")
