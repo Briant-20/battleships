@@ -1,15 +1,18 @@
 import random
-attack_positions = {
+player_attack_positions = {
             }
-attack_position = {"":""}
-p = 0
+player_attack_position = {"":""}
+computer_attack_positions = {
+            }
+computer_attack_position = {"":""}
 class GameArea:
-    def __init__(self,num_of_ships,grid_size,positions_dictionary,type):
+    def __init__(self,num_of_ships,grid_size,positions_dictionary,attack_positions_dictionary,type,p):
           self.num_of_ships = num_of_ships
           self.grid_size = grid_size
           self.positions_dictionary = positions_dictionary
+          self.attack_positions_dictionary = attack_positions_dictionary
           self.type = type
-          
+          self.p = p
     def define_grid(self):
         y_axis = []
         for i in range(self.grid_size):
@@ -34,6 +37,7 @@ class GameArea:
                 print(peg ,end="  ")
                 x += 1
             print()
+        self.p+=1
 
 class Choices:
     def __init__(self,num_of_ships,grid_size,p):
@@ -97,35 +101,44 @@ class Choices:
         return computer_choices
     
     def get_player_attack_position(self):
-            self.p+=1
-            print("Enter coordinates to attack on the y axis")
-            player_choice_y = input()
-            print("Enter coordinates to attack on the x axis")
-            player_choice_x = input()
-            try:
-                if int(player_choice_x) > self.grid_size -1 or int(player_choice_y) > self.grid_size -1:
-                    raise ValueError(
-                        f"You need to enter a value between 0 and {self.grid_size-1} inclusive"
-                        )
-                elif int(player_choice_x) < 0 or int(player_choice_y) < 0:
-                    raise ValueError(
-                        f"You need to enter a value between 0 and {self.grid_size-1} inclusive"
-                        )
-                for j in range(p):
-                    if player_choice_y in attack_positions[j] and attack_positions[j][player_choice_y] == player_choice_x:
+            k = 0
+            while k < 1:
+                print("Enter coordinates to attack on the y axis")
+                player_choice_y = input()
+                print("Enter coordinates to attack on the x axis")
+                player_choice_x = input()
+                try:
+                    if int(player_choice_x) > self.grid_size -1 or int(player_choice_y) > self.grid_size -1:
                         raise ValueError(
-                            f"You cannot enter the same coordinates twice, try again"
-                        )
-            except ValueError as e:
-                print(f"Invalid data: {e}, please try again\n")
+                            f"You need to enter a value between 0 and {self.grid_size-1} inclusive"
+                            )
+                    elif int(player_choice_x) < 0 or int(player_choice_y) < 0:
+                        raise ValueError(
+                            f"You need to enter a value between 0 and {self.grid_size-1} inclusive"
+                            )
+                    for j in range(self.p):
+                        if player_choice_y in player_attack_positions[j] and player_attack_positions[j][player_choice_y] == player_choice_x:
+                            raise ValueError(
+                                f"You cannot enter the same coordinates twice, try again"
+                            )
+                except ValueError as e:
+                    print(f"Invalid data: {e}, please try again\n")
+                    continue
+                k +=1 
             attack_position = {player_choice_y:player_choice_x}
-            attack_positions[p] = attack_position
-            return attack_positions
+            player_attack_positions[self.p] = attack_position
+            self.p+=1
+            return player_attack_positions
     
-choices = Choices(3,5,0)
-print(choices.get_player_attack_position())
-player_grid = GameArea(3,5,choices.get_player_choice(),"Player")
-player_grid.print_grid()
-computer_grid = GameArea(3,5,choices.get_computer_choice(),"Computer")
-hidden_ships_computer_grid = GameArea(0,5,choices.get_computer_choice(),"Computer")
-hidden_ships_computer_grid.print_grid()
+def play_game():
+    choices = Choices(3,5,0)
+    player_position = choices.get_player_choice()
+    computer_position = choices.get_computer_choice()
+    player_grid = GameArea(3,5,player_position,computer_position,"Player",0)
+    hidden_ships_computer_grid = GameArea(0,5,computer_position,computer_position,"Computer",0)
+    player_grid.print_grid()
+    hidden_ships_computer_grid.print_grid()
+    while True:
+         choices.get_player_attack_position()
+
+play_game()
