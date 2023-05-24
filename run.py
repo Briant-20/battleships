@@ -1,17 +1,22 @@
 import random
+
+choice_increment = 1
 player_attack_positions = {
             }
 player_attack_position = {"":""}
 computer_attack_positions = {
             }
 computer_attack_position = {"":""}
+
 class GameArea:
-    def __init__(self,num_of_ships,grid_size,positions_dictionary,attack_position,type):
+    def __init__(self,num_of_ships,grid_size,positions_dictionary,attack_position,type,attack):
           self.num_of_ships = num_of_ships
           self.grid_size = grid_size
           self.positions_dictionary = positions_dictionary
           self.attack_position = attack_position
           self.type = type
+          self.attack = attack
+          self.choice_increment = choice_increment
     def define_grid(self):
         y_axis = []
         for i in range(self.grid_size):
@@ -23,6 +28,8 @@ class GameArea:
         return grid
      
     def print_grid(self):
+        print(self.positions_dictionary)
+        global choice_increment
         grid = self.define_grid()
         print(f"{self.type} grid")
         y = -1
@@ -31,12 +38,27 @@ class GameArea:
             y += 1
             for peg in row:
                 for i in range(self.num_of_ships):
+                    position = False
                     if str(y) in self.positions_dictionary[i] and self.positions_dictionary[i][str(y)] == str(x):
-                        peg = "*"
-                    if self.attack_position[]
+                        peg = "%"
+                        position = True
+                        if self.type == "Computer":
+                            peg = 0
+                        if self.attack == True:
+                            for j in range(self.choice_increment):
+                                if position == True:
+                                    if str(y) in self.attack_position[j] and self.attack_position[j][str(y)] == str(x):
+                                        peg = "*"
+                    if self.attack == True:
+                        for k in range(self.choice_increment):
+                            if position == False and peg != "*":
+                                if str(y) in self.attack_position[k] and self.attack_position[k][str(y)] == str(x):
+                                    peg = "X"
                 print(peg ,end="  ")
                 x += 1
             print()
+        if self.attack == True and self.type == "Computer":
+            choice_increment += 1
 
 class Choices:
     def __init__(self,num_of_ships,grid_size,player_increment,computer_increment):
@@ -94,7 +116,7 @@ class Choices:
                     if computer_choice_y in computer_choices[j] and computer_choices[j][computer_choice_y] == computer_choice_x:
                             raise ValueError(
                             )
-            except ValueError as e:
+            except ValueError:
                 continue 
             computer_choice = {str(computer_choice_y):str(computer_choice_x)}
             computer_choices[i] = computer_choice
@@ -138,25 +160,31 @@ class Choices:
             computer_choice_y = random.randint(0, 4)
             try:
                 for j in range(self.computer_increment):
-                    if computer_choice_y in computer_attack_positions[j] and computer_attack_positions[j][computer_choice_y] == computer_choice_x:
+                    if str(computer_choice_y) in computer_attack_positions[j] and computer_attack_positions[j][str(computer_choice_y)] == str(computer_choice_x):
                             raise ValueError(
                             )
             except ValueError as e:
                 continue 
             k +=1
-        computer_attack_position = {computer_choice_y:computer_choice_x}
+        computer_attack_position = {str(computer_choice_y):str(computer_choice_x)}
         computer_attack_positions[self.computer_increment] = computer_attack_position
         self.computer_increment+=1
         return computer_attack_positions
+    
 def play_game():
     choices = Choices(3,5,0,0)
     player_position = choices.get_player_choice()
     computer_position = choices.get_computer_choice()
-    player_grid = GameArea(3,5,player_position,"Player")
-    hidden_ships_computer_grid = GameArea(0,5,computer_position,"Computer")
+    player_grid = GameArea(3,5,player_position,player_position,"Player",False)
+    hidden_ships_computer_grid = GameArea(3,5,computer_position,computer_position,"Computer",False)
     player_grid.print_grid()
     hidden_ships_computer_grid.print_grid()
     while True:
-         choices.get_player_attack_position()
-         choices.get_computer_attack_position()
+         player_attack = choices.get_player_attack_position()
+         computer_attack = choices.get_computer_attack_position()
+         player_grid = GameArea(3,5,player_position,computer_attack,"Player",True)
+         computer_grid = GameArea(3,5,computer_position,player_attack,"Computer",True)
+         player_grid.print_grid()
+         computer_grid.print_grid()
+
 play_game()
