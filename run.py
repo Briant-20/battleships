@@ -1,6 +1,9 @@
 import random
 
 choice_increment = 1
+computer_hit = 0
+player_hit = 0
+num_ships = 0
 player_attack_positions = {
             }
 player_attack_position = {"":""}
@@ -17,6 +20,11 @@ class GameArea:
           self.type = type
           self.attack = attack
           self.choice_increment = choice_increment
+          self.player_hit = player_hit
+          self.computer_hit = computer_hit
+          global num_ships
+          num_ships = self.num_of_ships
+
     def define_grid(self):
         y_axis = []
         for i in range(self.grid_size):
@@ -28,8 +36,12 @@ class GameArea:
         return grid
      
     def print_grid(self):
-        print(self.positions_dictionary)
+        if self.type == "Player":
+            p_hit = 0
+        c_hit = 0
         global choice_increment
+        global player_hit
+        global computer_hit
         grid = self.define_grid()
         print(f"{self.type} grid")
         y = -1
@@ -49,6 +61,10 @@ class GameArea:
                                 if position == True:
                                     if str(y) in self.attack_position[j] and self.attack_position[j][str(y)] == str(x):
                                         peg = "*"
+                                        if self.type == "Player":
+                                            p_hit += 1
+                                        if self.type == "Computer":
+                                            c_hit += 1
                     if self.attack == True:
                         for k in range(self.choice_increment):
                             if position == False and peg != "*":
@@ -56,6 +72,9 @@ class GameArea:
                                     peg = "X"
                 print(peg ,end="  ")
                 x += 1
+                if self.type == "Player":
+                    player_hit = p_hit
+                computer_hit = c_hit
             print()
         if self.attack == True and self.type == "Computer":
             choice_increment += 1
@@ -113,7 +132,7 @@ class Choices:
             computer_choice_y = random.randint(0, 4)
             try:
                 for j in range(self.num_of_ships):
-                    if computer_choice_y in computer_choices[j] and computer_choices[j][computer_choice_y] == computer_choice_x:
+                    if str(computer_choice_y) in computer_choices[j] and computer_choices[j][str(computer_choice_y)] == str(computer_choice_x):
                             raise ValueError(
                             )
             except ValueError:
@@ -180,11 +199,16 @@ def play_game():
     player_grid.print_grid()
     hidden_ships_computer_grid.print_grid()
     while True:
-         player_attack = choices.get_player_attack_position()
-         computer_attack = choices.get_computer_attack_position()
-         player_grid = GameArea(3,5,player_position,computer_attack,"Player",True)
-         computer_grid = GameArea(3,5,computer_position,player_attack,"Computer",True)
-         player_grid.print_grid()
-         computer_grid.print_grid()
-
+        player_attack = choices.get_player_attack_position()
+        computer_attack = choices.get_computer_attack_position()
+        player_grid = GameArea(3,5,player_position,computer_attack,"Player",True)
+        computer_grid = GameArea(3,5,computer_position,player_attack,"Computer",True)
+        player_grid.print_grid()
+        computer_grid.print_grid()
+        if computer_hit == num_ships:
+             print("Game over you win")
+             break
+        if player_hit == num_ships:
+             print("Game over the computer sunk all your ships")
+             break
 play_game()
