@@ -36,12 +36,12 @@ class GameArea:
         return grid
      
     def print_grid(self):
-        if self.type == "Player":
-            p_hit = 0
-        c_hit = 0
-        global choice_increment
         global player_hit
         global computer_hit
+        if self.type == "Player":
+            player_hit = 0
+        computer_hit = 0
+        global choice_increment
         grid = self.define_grid()
         print(f"{self.type} grid")
         y = -1
@@ -62,9 +62,9 @@ class GameArea:
                                     if str(y) in self.attack_position[j] and self.attack_position[j][str(y)] == str(x):
                                         peg = "*"
                                         if self.type == "Player":
-                                            p_hit += 1
+                                            player_hit += 1
                                         if self.type == "Computer":
-                                            c_hit += 1
+                                            computer_hit += 1
                     if self.attack == True:
                         for k in range(self.choice_increment):
                             if position == False and peg != "*":
@@ -72,9 +72,6 @@ class GameArea:
                                     peg = "X"
                 print(peg ,end="  ")
                 x += 1
-                if self.type == "Player":
-                    player_hit = p_hit
-                computer_hit = c_hit
             print()
         if self.attack == True and self.type == "Computer":
             choice_increment += 1
