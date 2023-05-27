@@ -26,6 +26,7 @@ class GameArea:
           num_ships = self.num_of_ships
 
     def define_grid(self):
+        print()
         y_axis = []
         for i in range(self.grid_size):
             x_axis = []
@@ -73,6 +74,7 @@ class GameArea:
                 print(peg ,end="  ")
                 x += 1
             print()
+        print()
         if self.attack == True and self.type == "Computer":
             choice_increment += 1
 
@@ -91,9 +93,10 @@ class Choices:
                 player_choices[i] = player_choice
         i = 0
         while i < self.num_of_ships:
-            print("Enter coordinates for y axis")
+            print(f"Coordinates are between {self.num_of_ships - self.num_of_ships} and {self.num_of_ships+1}")
+            print(f"Enter coordinates on the y axis for ship {i+1}")
             player_choice_y = input()
-            print("Enter coordinates for x axis")
+            print(f"Enter coordinates on the x axis for ship {i+1}")
             player_choice_x = input()
             try:
                 if int(player_choice_x) > self.grid_size -1 or int(player_choice_y) > self.grid_size -1:
@@ -142,6 +145,7 @@ class Choices:
     def get_player_attack_position(self):
             k = 0
             while k < 1:
+                print(f"Coordinates are between {self.num_of_ships - self.num_of_ships} and {self.num_of_ships+1}")
                 print("Enter coordinates to attack on the y axis")
                 player_choice_y = input()
                 print("Enter coordinates to attack on the x axis")
@@ -200,7 +204,7 @@ def play_game():
             print(f"Invalid data: {e}, please try again\n")
             continue
         if int(choice) == 1:
-                print("")
+                print()
                 print(":This is a game of battleships played against the computer.\n"
                     ":You will enter the coordinates for your ships in the beginning.\n"
                     ":You will be able to see the location of your ships but not the computers.\n"
@@ -210,7 +214,7 @@ def play_game():
                     ":A sunken ship is represented by the '*' symbol.\n"
                     ":A missed hit is represented by the 'X' symbol.\n"
                     ":When all of a players ships are sunk, they lose and the game ends")
-                print("")
+                print()
         if int(choice) == 2:
             choices = Choices(3,5,0,0)
             player_position = choices.get_player_choice()
@@ -227,10 +231,10 @@ def play_game():
                 player_grid.print_grid()
                 computer_grid.print_grid()
                 if computer_hit == num_ships:
-                    print("Game over you win")
+                    print("Game over, congratulations you win!")
                     break
                 if player_hit == num_ships:
-                    print("Game over the computer sunk all your ships")
+                    print("Game over, the computer sunk all your ships.")
                     break
         if int(choice) == 3:
             break
