@@ -188,24 +188,50 @@ class Choices:
         return computer_attack_positions
     
 def play_game():
-    choices = Choices(3,5,0,0)
-    player_position = choices.get_player_choice()
-    computer_position = choices.get_computer_choice()
-    player_grid = GameArea(3,5,player_position,player_position,"Player",False)
-    hidden_ships_computer_grid = GameArea(3,5,computer_position,computer_position,"Computer",False)
-    player_grid.print_grid()
-    hidden_ships_computer_grid.print_grid()
     while True:
-        player_attack = choices.get_player_attack_position()
-        computer_attack = choices.get_computer_attack_position()
-        player_grid = GameArea(3,5,player_position,computer_attack,"Player",True)
-        computer_grid = GameArea(3,5,computer_position,player_attack,"Computer",True)
-        player_grid.print_grid()
-        computer_grid.print_grid()
-        if computer_hit == num_ships:
-             print("Game over you win")
-             break
-        if player_hit == num_ships:
-             print("Game over the computer sunk all your ships")
-             break
+        print("Enter 1 for the rules")
+        print("Enter 2 to play the game")
+        print("Enter 3 to exit")
+        choice = input()
+        try:
+            if type(int(choice)) is not int:
+                raise ValueError()
+        except ValueError as e:
+            print(f"Invalid data: {e}, please try again\n")
+            continue
+        if int(choice) == 1:
+                print("")
+                print(":This is a game of battleships played against the computer.\n"
+                    ":You will enter the coordinates for your ships in the beginning.\n"
+                    ":You will be able to see the location of your ships but not the computers.\n"
+                    ":Afterwards you will take turns entering coordinates to attack each other’s grids.\n"
+                    ":A single peg on the grid is represented by the '0' symbol.\n"
+                    ":Your ships are represented by the '%' symbol.\n"
+                    ":A sunken ship is represented by the '*' symbol.\n"
+                    ":A missed hit is represented by the 'X' symbol.\n"
+                    ":When all of a players ships are sunk, they lose and the game ends")
+                print("")
+        if int(choice) == 2:
+            choices = Choices(3,5,0,0)
+            player_position = choices.get_player_choice()
+            computer_position = choices.get_computer_choice()
+            player_grid = GameArea(3,5,player_position,player_position,"Player",False)
+            hidden_ships_computer_grid = GameArea(3,5,computer_position,computer_position,"Computer",False)
+            player_grid.print_grid()
+            hidden_ships_computer_grid.print_grid()
+            while True:
+                player_attack = choices.get_player_attack_position()
+                computer_attack = choices.get_computer_attack_position()
+                player_grid = GameArea(3,5,player_position,computer_attack,"Player",True)
+                computer_grid = GameArea(3,5,computer_position,player_attack,"Computer",True)
+                player_grid.print_grid()
+                computer_grid.print_grid()
+                if computer_hit == num_ships:
+                    print("Game over you win")
+                    break
+                if player_hit == num_ships:
+                    print("Game over the computer sunk all your ships")
+                    break
+        if int(choice) == 3:
+            break
 play_game()
