@@ -1,5 +1,5 @@
 import random
-
+# Initialise variables
 choice_increment = 1
 computer_hit = 0
 player_hit = 0
@@ -10,41 +10,38 @@ player_attack_position = {"":""}
 computer_attack_positions = {
             }
 computer_attack_position = {"":""}
-
+# Define class GameArea
 class GameArea:
-    def __init__(self,num_of_ships,grid_size,positions_dictionary,attack_position,type,attack):
+    def __init__(self,num_of_ships,grid_size,positions_dictionary,attack_position,user,attack):
           self.num_of_ships = num_of_ships
           self.grid_size = grid_size
           self.positions_dictionary = positions_dictionary
           self.attack_position = attack_position
-          self.type = type
+          self.user = user
           self.attack = attack
-          self.choice_increment = choice_increment
-          self.player_hit = player_hit
-          self.computer_hit = computer_hit
           global num_ships
           num_ships = self.num_of_ships
-
+    # Define function to create a template grid
     def define_grid(self):
         print()
         y_axis = []
-        for i in range(self.grid_size):
+        for _ in range(self.grid_size):
             x_axis = []
-            for i in range(self.grid_size):
+            for _ in range(self.grid_size):
                 x_axis.append(0)
             y_axis.append(x_axis)
             grid = y_axis
         return grid
-     
+    # Print out a grid to the terminal
     def print_grid(self):
         global player_hit
         global computer_hit
-        if self.type == "Player":
+        global choice_increment
+        if self.user == "Player":
             player_hit = 0
         computer_hit = 0
-        global choice_increment
         grid = self.define_grid()
-        print(f"{self.type} grid")
+        print(f"{self.user} grid")
         y = -1
         for row in grid:
             x = 0
@@ -55,19 +52,19 @@ class GameArea:
                     if str(y) in self.positions_dictionary[i] and self.positions_dictionary[i][str(y)] == str(x):
                         peg = "%"
                         position = True
-                        if self.type == "Computer":
+                        if self.user == "Computer":
                             peg = 0
                         if self.attack == True:
-                            for j in range(self.choice_increment):
+                            for j in range(choice_increment):
                                 if position == True:
                                     if str(y) in self.attack_position[j] and self.attack_position[j][str(y)] == str(x):
                                         peg = "*"
-                                        if self.type == "Player":
+                                        if self.user == "Player":
                                             player_hit += 1
-                                        if self.type == "Computer":
+                                        if self.user == "Computer":
                                             computer_hit += 1
                     if self.attack == True:
-                        for k in range(self.choice_increment):
+                        for k in range(choice_increment):
                             if position == False and peg != "*":
                                 if str(y) in self.attack_position[k] and self.attack_position[k][str(y)] == str(x):
                                     peg = "X"
@@ -75,16 +72,16 @@ class GameArea:
                 x += 1
             print()
         print()
-        if self.attack == True and self.type == "Computer":
-            choice_increment += 1
-
+        if self.attack == True and self.user == "Computer":
+            choice_increment += 1 
+# Define class Choices
 class Choices:
     def __init__(self,num_of_ships,grid_size,player_increment,computer_increment):
         self.num_of_ships = num_of_ships
         self.grid_size = grid_size
         self.player_increment = player_increment
         self.computer_increment = computer_increment
-
+    # Function to get the players choice for their ships positions
     def get_player_choice(self):
         player_choices = {
         }
@@ -119,7 +116,7 @@ class Choices:
             player_choices[i] = player_choice
             i += 1
         return player_choices
-        
+    # Function to get the computers choice for their ships positions
     def get_computer_choice(self):
         computer_choices = {
         }
@@ -141,7 +138,7 @@ class Choices:
             computer_choices[i] = computer_choice
             i += 1
         return computer_choices
-    
+    # Function to get the players choice for where to attack the computers grid
     def get_player_attack_position(self):
             k = 0
             while k < 1:
@@ -172,7 +169,7 @@ class Choices:
             player_attack_positions[self.player_increment] = player_attack_position
             self.player_increment+=1
             return player_attack_positions
-    
+    # Function to get the computers choice for where to attack the players grid
     def get_computer_attack_position(self):
         k = 0
         while k < 1:
@@ -188,9 +185,9 @@ class Choices:
             k +=1
         computer_attack_position = {str(computer_choice_y):str(computer_choice_x)}
         computer_attack_positions[self.computer_increment] = computer_attack_position
-        self.computer_increment+=1
+        self.computer_increment+=1 
         return computer_attack_positions
-    
+# Function to call all the necessary functions to play the game
 def play_game():
     while True:
         print("Enter 1 for the rules")
@@ -213,8 +210,9 @@ def play_game():
                     ":Your ships are represented by the '%' symbol.\n"
                     ":A sunken ship is represented by the '*' symbol.\n"
                     ":A missed hit is represented by the 'X' symbol.\n"
-                    ":When all of a players ships are sunk, they lose and the game ends")
+                    ":When all of a players ships are sunk they lose and the game ends")
                 print()
+                continue
         if int(choice) == 2:
             choices = Choices(3,5,0,0)
             player_position = choices.get_player_choice()
@@ -232,10 +230,14 @@ def play_game():
                 computer_grid.print_grid()
                 if computer_hit == num_ships:
                     print("Game over, congratulations you win!")
+                    print()
                     break
                 if player_hit == num_ships:
                     print("Game over, the computer sunk all your ships.")
+                    print()
                     break
         if int(choice) == 3:
             break
+        break
+# Call the play_game function
 play_game()
