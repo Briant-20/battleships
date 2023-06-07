@@ -1,6 +1,8 @@
 import random
+from blessed import Terminal
 
 # Initialise variables
+term = Terminal()
 choice_increment = 1
 computer_hit = 0
 player_hit = 0
@@ -44,11 +46,13 @@ class GameArea:
         global player_hit
         global computer_hit
         global choice_increment
-        if self.user == "Player":
-            player_hit = 0
         computer_hit = 0
         grid = self.define_grid()
-        print(f"{self.user} grid")
+        if self.user == "Player":
+            player_hit = 0
+            print(term.blue(f"{self.user} grid"))
+        else:
+            print(term.red(f"{self.user} grid"))
         y = -1
         for row in grid:
             x = 0
@@ -59,7 +63,7 @@ class GameArea:
                     if str(y) in self.positions_dictionary[
                         i] and self.positions_dictionary[i][str(
                             y)] == str(x):
-                        peg = "%"
+                        peg = term.black("%")
                         position = True
                         if self.user == "Computer":
                             peg = 0
@@ -69,18 +73,18 @@ class GameArea:
                                     if str(y) in self.attack_position[
                                         j] and self.attack_position[j][str(
                                             y)] == str(x):
-                                        peg = "*"
+                                        peg = term.orange("*")
                                         if self.user == "Player":
                                             player_hit += 1
                                         if self.user == "Computer":
                                             computer_hit += 1
                     if self.attack:
                         for k in range(choice_increment):
-                            if position is False and peg != "*":
+                            if position is False and peg != term.orange("*"):
                                 if str(y) in self.attack_position[
                                     k] and self.attack_position[
                                         k][str(y)] == str(x):
-                                    peg = "X"
+                                    peg = term.red("X")
                 print(peg, end="  ")
                 x += 1
             print()
@@ -180,7 +184,7 @@ class Choices:
             print("Enter coordinates to attack on the x axis")
             player_choice_x = input()
             try:
-                if int(player_choice_x) > self.grid_size - \
+                if int(player_choice_x) > self.grid_size -  \
                         1 or int(player_choice_y) > self.grid_size - 1:
                     raise ValueError(
                         f"You need to enter a value between "
@@ -197,7 +201,7 @@ class Choices:
                             j][player_choice_y] == player_choice_x:
                         raise ValueError(
                             "You cannot enter the same "
-                            "coordinates twice, try again"
+                            "coordinates twice"
                         )
             except ValueError as e:
                 print(f"Invalid data: {e}, please try again\n")
@@ -255,10 +259,10 @@ def play_game():
                 "but not the computers.\n"
                 ":Afterwards you will take turns entering coordinates "
                 "to attack each other’s grids.\n"
-                ":A single peg on the grid is represented by the '0' symbol.\n"
-                ":Your ships are represented by the '%' symbol.\n"
-                ":A sunken ship is represented by the '*' symbol.\n"
-                ":A missed hit is represented by the 'X' symbol.\n"
+                ":A single peg on the grid is represented by the 0 symbol.\n"
+                f":Your ships are represented by the {term.black('%')} symbol.\n"
+                f":A sunken ship is represented by the {term.orange('*')} symbol.\n"
+                f":A missed hit is represented by the {term.red('X')} symbol.\n"
                 ":When all of a players ships are sunk "
                 "they lose and the game ends")
             print()
