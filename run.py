@@ -253,14 +253,14 @@ def play_game():
             print()
             print(
                 ":This is a game of battleships played against the computer.\n"
+                ":In the beginning you will set how many ships are in play and the grid size.\n"
                 ":You will enter the coordinates for your ships "
-                "in the beginning.\n"
                 ":You will be able to see the location of your ships "
                 "but not the computers.\n"
                 ":Afterwards you will take turns entering coordinates "
                 "to attack each other’s grids.\n"
                 ":A single peg on the grid is represented by the 0 symbol.\n"
-                f":Your ships are represented by the {term.black('%')} symbol.\n"
+                f":Your ships are represented by the {term.yellow('%')} symbol.\n"
                 f":A sunken ship is represented by the {term.orange('*')} symbol.\n"
                 f":A missed hit is represented by the {term.red('X')} symbol.\n"
                 ":When all of a players ships are sunk "
