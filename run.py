@@ -112,9 +112,9 @@ class Choices:
         i = 0
         while i < self.num_of_ships:
             print(
-                f"Coordinates are between "
-                f"{self.num_of_ships - self.num_of_ships} "
-                f"and {self.num_of_ships+1}")
+                "Coordinates are between "
+                "0 "
+                f"and {self.grid_size-1}")
             print(f"Enter coordinates on the y axis for ship {i+1}")
             player_choice_y = input()
             print(f"Enter coordinates on the x axis for ship {i+1}")
@@ -123,12 +123,12 @@ class Choices:
                 if int(player_choice_x) > self.grid_size - \
                         1 or int(player_choice_y) > self.grid_size - 1:
                     raise ValueError(
-                        f"You need to enter a value between "
+                        "You need to enter a value between "
                         f"0 and {self.grid_size-1} inclusive"
                     )
                 elif int(player_choice_x) < 0 or int(player_choice_y) < 0:
                     raise ValueError(
-                        f"You need to enter a value between "
+                        "You need to enter a value between "
                         f"0 and {self.grid_size-1} inclusive"
                     )
                 for j in range(self.num_of_ships):
@@ -155,8 +155,8 @@ class Choices:
             computer_choices[i] = computer_choice
         i = 0
         while i < self.num_of_ships:
-            computer_choice_x = random.randint(0, 4)
-            computer_choice_y = random.randint(0, 4)
+            computer_choice_x = random.randint(0, self.grid_size-1)
+            computer_choice_y = random.randint(0, self.grid_size-1)
             try:
                 for j in range(self.num_of_ships):
                     if str(computer_choice_y) in computer_choices[
@@ -176,9 +176,9 @@ class Choices:
         k = 0
         while k < 1:
             print(
-                f"Coordinates are between "
-                f"{self.num_of_ships - self.num_of_ships} "
-                f"and {self.num_of_ships+1}")
+                "Coordinates are between "
+                "0 "
+                f"and {self.grid_size-1}")
             print("Enter coordinates to attack on the y axis")
             player_choice_y = input()
             print("Enter coordinates to attack on the x axis")
@@ -187,12 +187,12 @@ class Choices:
                 if int(player_choice_x) > self.grid_size -  \
                         1 or int(player_choice_y) > self.grid_size - 1:
                     raise ValueError(
-                        f"You need to enter a value between "
+                        "You need to enter a value between "
                         f"0 and {self.grid_size-1} inclusive"
                     )
                 elif int(player_choice_x) < 0 or int(player_choice_y) < 0:
                     raise ValueError(
-                        f"You need to enter a value between "
+                        "You need to enter a value between "
                         f"0 and {self.grid_size-1} inclusive"
                     )
                 for j in range(self.player_increment):
@@ -216,8 +216,8 @@ class Choices:
     def get_computer_attack_position(self):
         k = 0
         while k < 1:
-            computer_choice_x = random.randint(0, 4)
-            computer_choice_y = random.randint(0, 4)
+            computer_choice_x = random.randint(0, self.grid_size-1)
+            computer_choice_y = random.randint(0, self.grid_size-1)
             try:
                 for j in range(self.computer_increment):
                     if str(computer_choice_y) in computer_attack_positions[
@@ -244,7 +244,7 @@ def play_game():
         print("Enter 3 to exit")
         choice = input()
         try:
-            if type(int(choice)) is not int:
+            if int(choice) <= 0 or int(choice) > 3:
                 raise ValueError()
         except ValueError as e:
             print(f"Invalid data: {e}, please try again\n")
@@ -268,29 +268,46 @@ def play_game():
             print()
             continue
         if int(choice) == 2:
-            choices = Choices(3, 5, 0, 0)
-            player_position = choices.get_player_choice()
-            computer_position = choices.get_computer_choice()
-            player_grid = GameArea(
-                3, 5, player_position, player_position, "Player", False)
-            hidden_ships_computer_grid = GameArea(
-                3, 5, computer_position, computer_position, "Computer", False)
-            player_grid.print_grid()
-            hidden_ships_computer_grid.print_grid()
+            while True:
+                print("Choose game parameters")
+                print("Enter the number of ships")
+                ships = input()
+                print("Enter the grid size(e.g. entering 5 will create a 5 x 5 grid area)")
+                grid = input()
+                try:
+                    if int(grid) <= 0 or int(ships) <= 0:
+                        raise ValueError()
+                    if int(grid) * int(grid) % int(ships) > 1:
+                        raise ValueError("You have too many ships and not enough grid space")
+                except ValueError as e:
+                    print(f"Invalid data: {e}, please try again\n")
+                    continue
+                ships = int(ships)
+                grid = int(grid)
+                choices = Choices(ships, grid, 0, 0)
+                player_position = choices.get_player_choice()
+                computer_position = choices.get_computer_choice()
+                player_grid = GameArea(
+                    ships, grid, player_position, player_position, "Player", False)
+                hidden_ships_computer_grid = GameArea(
+                    ships, grid, computer_position, computer_position, "Computer", False)
+                player_grid.print_grid()
+                hidden_ships_computer_grid.print_grid()
+                break
             while True:
                 player_attack = choices.get_player_attack_position()
                 computer_attack = choices.get_computer_attack_position()
                 player_grid = GameArea(
-                    3, 5, player_position, computer_attack, "Player", True)
+                    ships, grid, player_position, computer_attack, "Player", True)
                 computer_grid = GameArea(
-                    3, 5, computer_position, player_attack, "Computer", True)
+                    ships, grid, computer_position, player_attack, "Computer", True)
                 player_grid.print_grid()
                 computer_grid.print_grid()
                 if computer_hit == num_ships:
                     print("Game over, congratulations you win!")
                     print()
                     break
-                if player_hit == num_ships:
+                elif player_hit == num_ships:
                     print("Game over, the computer sunk all your ships.")
                     print()
                     break
