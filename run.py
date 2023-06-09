@@ -63,7 +63,7 @@ class GameArea:
                     if str(y) in self.positions_dictionary[
                         i] and self.positions_dictionary[i][str(
                             y)] == str(x):
-                        peg = term.black("%")
+                        peg = term.yellow("%")
                         position = True
                         if self.user == "Computer":
                             peg = 0
@@ -277,7 +277,7 @@ def play_game():
                 try:
                     if int(grid) <= 0 or int(ships) <= 0:
                         raise ValueError()
-                    if int(grid) * int(grid) % int(ships) > 1:
+                    if int(grid) * int(grid) % int(ships) == int(grid) * int(grid):
                         raise ValueError("You have too many ships and not enough grid space")
                 except ValueError as e:
                     print(f"Invalid data: {e}, please try again\n")
