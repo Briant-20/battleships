@@ -268,100 +268,114 @@ class Choices:
         self.computer_increment += 1
         return computer_attack_positions
 
+    def get_game_parameters():
+        """
+        Get the choices that set the parameters of
+        the game for the play_game function
+        """
+        while True:
+            print("Enter 1 for the rules")
+            print("Enter 2 to play the game")
+            print("Enter 3 to exit")
+            choice = input()
+            try:
+                if int(choice) <= 0 or int(choice) > 3:
+                    raise ValueError()
+            except ValueError as e:
+                print(f"Invalid data: {e}, please try again\n")
+                continue
+            if int(choice) == 1:
+                print()
+                print(
+                    ":This is a game of battleships played "
+                    "against the computer.\n"
+                    ":In the beginning you will set how many ships are "
+                    "in play and the grid size.\n"
+                    ":You will enter the coordinates for your ships "
+                    ":You will be able to see the location of your ships "
+                    "but not the computers.\n"
+                    ":Afterwards you will take turns entering coordinates "
+                    "to attack each other’s grids.\n"
+                    ":A single peg on the grid is represented by "
+                    "the 0 symbol.\n"
+                    ":Your ships are represented by the "
+                    f"{term.yellow('%')} symbol.\n"
+                    ":A sunken ship is represented by the "
+                    f"{term.orange('*')} symbol.\n"
+                    ":A missed hit is represented by the "
+                    f"{term.red('X')} symbol.\n"
+                    ":When all of a players ships are sunk "
+                    "they lose and the game ends.")
+                print()
+                continue
+            if int(choice) == 2:
+                while True:
+                    print("Choose game parameters")
+                    print("Enter the number of ships")
+                    ships = input()
+                    print("Enter the grid size "
+                          "(e.g. entering 5 will create a 5 x 5 grid area)")
+                    grid = input()
+                    try:
+                        if int(grid) <= 0 or int(ships) <= 0:
+                            raise ValueError()
+                        if int(grid) * int(grid) % int(ships) == int(
+                                grid) * int(grid):
+                            raise ValueError("You have too many ships and "
+                                             "not enough grid space")
+                        if int(grid) > 27 or int(ships) > 729:
+                            raise ValueError("You have exceeded the limit")
+                    except ValueError as e:
+                        print(f"Invalid data: {e}, please try again\n")
+                        continue
+                    break
+            if int(choice) == 3:
+                ships = False
+                grid = False
+                break
+            break
+        return ships, grid
+
 
 def play_game():
     """
     Function to call all the necessary functions to play the game.
     """
+    ships, grid = Choices.get_game_parameters()
+    if ships is False:
+        raise Exception("Exit")
+    ships = int(ships)
+    grid = int(grid)
+    choices = Choices(ships, grid, 0, 0)
+    player_position = choices.get_player_choice()
+    computer_position = choices.get_computer_choice()
+    player_grid = GameArea(
+        ships, grid, player_position,
+        player_position, "Player", False)
+    hidden_ships_computer_grid = GameArea(
+        ships, grid, computer_position,
+        computer_position, "Computer", False)
+    player_grid.print_grid()
+    hidden_ships_computer_grid.print_grid()
     while True:
-        print("Enter 1 for the rules")
-        print("Enter 2 to play the game")
-        print("Enter 3 to exit")
-        choice = input()
-        try:
-            if int(choice) <= 0 or int(choice) > 3:
-                raise ValueError()
-        except ValueError as e:
-            print(f"Invalid data: {e}, please try again\n")
-            continue
-        if int(choice) == 1:
+        player_attack = choices.get_player_attack_position()
+        computer_attack = choices.get_computer_attack_position()
+        player_grid = GameArea(
+            ships, grid, player_position,
+            computer_attack, "Player", True)
+        computer_grid = GameArea(
+            ships, grid, computer_position,
+            player_attack, "Computer", True)
+        player_grid.print_grid()
+        computer_grid.print_grid()
+        if computer_hit == num_ships:
+            print("Game over, congratulations you win!")
             print()
-            print(
-                ":This is a game of battleships played against the computer.\n"
-                ":In the beginning you will set how many ships are "
-                "in play and the grid size.\n"
-                ":You will enter the coordinates for your ships "
-                ":You will be able to see the location of your ships "
-                "but not the computers.\n"
-                ":Afterwards you will take turns entering coordinates "
-                "to attack each other’s grids.\n"
-                ":A single peg on the grid is represented by the 0 symbol.\n"
-                ":Your ships are represented by the "
-                f"{term.yellow('%')} symbol.\n"
-                ":A sunken ship is represented by the "
-                f"{term.orange('*')} symbol.\n"
-                ":A missed hit is represented by the "
-                f"{term.red('X')} symbol.\n"
-                ":When all of a players ships are sunk "
-                "they lose and the game ends.")
-            print()
-            continue
-        if int(choice) == 2:
-            while True:
-                print("Choose game parameters")
-                print("Enter the number of ships")
-                ships = input()
-                print("Enter the grid size "
-                      "(e.g. entering 5 will create a 5 x 5 grid area)")
-                grid = input()
-                try:
-                    if int(grid) <= 0 or int(ships) <= 0:
-                        raise ValueError()
-                    if int(grid) * int(grid) % int(ships) == int(
-                            grid) * int(grid):
-                        raise ValueError("You have too many ships and "
-                                         "not enough grid space")
-                    if int(grid) > 999 or int(ships) > 999:
-                        raise ValueError("You have exceeded the limit")
-                except ValueError as e:
-                    print(f"Invalid data: {e}, please try again\n")
-                    continue
-                ships = int(ships)
-                grid = int(grid)
-                choices = Choices(ships, grid, 0, 0)
-                player_position = choices.get_player_choice()
-                computer_position = choices.get_computer_choice()
-                player_grid = GameArea(
-                    ships, grid, player_position,
-                    player_position, "Player", False)
-                hidden_ships_computer_grid = GameArea(
-                    ships, grid, computer_position,
-                    computer_position, "Computer", False)
-                player_grid.print_grid()
-                hidden_ships_computer_grid.print_grid()
-                break
-            while True:
-                player_attack = choices.get_player_attack_position()
-                computer_attack = choices.get_computer_attack_position()
-                player_grid = GameArea(
-                    ships, grid, player_position,
-                    computer_attack, "Player", True)
-                computer_grid = GameArea(
-                    ships, grid, computer_position,
-                    player_attack, "Computer", True)
-                player_grid.print_grid()
-                computer_grid.print_grid()
-                if computer_hit == num_ships:
-                    print("Game over, congratulations you win!")
-                    print()
-                    break
-                elif player_hit == num_ships:
-                    print("Game over, the computer sunk all your ships.")
-                    print()
-                    break
-        if int(choice) == 3:
             break
-        break
+        elif player_hit == num_ships:
+            print("Game over, the computer sunk all your ships.")
+            print()
+            break
 
 
 # Call the play_game function
