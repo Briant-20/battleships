@@ -311,10 +311,11 @@ class Choices:
             if int(choice) == 2:
                 while True:
                     print("Choose game parameters")
-                    print("Enter the number of ships")
+                    print("Enter the number of ships(Recommended amount is 3)")
                     ships = input()
                     print("Enter the grid size "
-                          "(e.g. entering 5 will create a 5 x 5 grid area)")
+                          "(e.g. entering 5 will create a 5 x 5 grid area. "
+                          "Recommended amount is 5)")
                     grid = input()
                     try:
                         if int(grid) <= 0 or int(ships) <= 0:
@@ -324,7 +325,8 @@ class Choices:
                             raise ValueError("You have too many ships and "
                                              "not enough grid space")
                         if int(grid) > 27 or int(ships) > 729:
-                            raise ValueError("You have exceeded the limit")
+                            raise ValueError("You have exceeded the limit of "
+                                             "729 ships and 27 grid size")
                     except ValueError as e:
                         print(f"Invalid data: {e}, please try again\n")
                         continue
