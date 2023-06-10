@@ -321,6 +321,8 @@ def play_game():
                             grid) * int(grid):
                         raise ValueError("You have too many ships and "
                                          "not enough grid space")
+                    if int(grid) > 999 or int(ships) > 999:
+                        raise ValueError("You have exceeded the limit")
                 except ValueError as e:
                     print(f"Invalid data: {e}, please try again\n")
                     continue
