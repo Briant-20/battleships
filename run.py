@@ -73,9 +73,9 @@ class GameArea:
             for peg in row:
                 for i in range(self.num_of_ships):
                     position = False
-                    if str(y) in self.positions_dictionary[
-                        i] and self.positions_dictionary[i][str(
-                            y)] == str(x):
+                    if y in self.positions_dictionary[
+                        i] and self.positions_dictionary[i][
+                            y] == x:
                         peg = term.yellow("%")
                         position = True
                         if self.user == "Computer":
@@ -83,9 +83,9 @@ class GameArea:
                         if self.attack:
                             for j in range(choice_increment):
                                 if position:
-                                    if str(y) in self.attack_position[
-                                        j] and self.attack_position[j][str(
-                                            y)] == str(x):
+                                    if y in self.attack_position[
+                                        j] and self.attack_position[j][
+                                            y] == x:
                                         peg = term.orange("*")
                                         if self.user == "Player":
                                             player_hit += 1
@@ -94,9 +94,9 @@ class GameArea:
                     if self.attack:
                         for k in range(choice_increment):
                             if position is False and peg != term.orange("*"):
-                                if str(y) in self.attack_position[
+                                if y in self.attack_position[
                                     k] and self.attack_position[
-                                        k][str(y)] == str(x):
+                                        k][y] == x:
                                     peg = term.red("X")
                 print(peg, end="  ")
                 x += 1
@@ -155,8 +155,9 @@ class Choices:
                         f"0 and {self.grid_size-1} inclusive"
                     )
                 for j in range(self.num_of_ships):
-                    if player_choice_y in player_choices[j] and player_choices[
-                            j][player_choice_y] == player_choice_x:
+                    if int(player_choice_y) in player_choices[
+                        j] and player_choices[j][int(player_choice_y)] == int(
+                            player_choice_x):
                         raise ValueError(
                             "You cannot enter the same coordinates twice, "
                             "try again"
@@ -164,7 +165,7 @@ class Choices:
             except ValueError as e:
                 print(f"Invalid data: {e}, please try again\n")
                 continue
-            player_choice = {player_choice_y: player_choice_x}
+            player_choice = {int(player_choice_y): int(player_choice_x)}
             player_choices[i] = player_choice
             i += 1
         return player_choices
@@ -184,14 +185,14 @@ class Choices:
             computer_choice_y = random.randint(0, self.grid_size-1)
             try:
                 for j in range(self.num_of_ships):
-                    if str(computer_choice_y) in computer_choices[
-                            j] and computer_choices[j][str(
-                            computer_choice_y)] == str(computer_choice_x):
+                    if computer_choice_y in computer_choices[
+                            j] and computer_choices[j][
+                            computer_choice_y] == computer_choice_x:
                         raise ValueError(
                         )
             except ValueError:
                 continue
-            computer_choice = {str(computer_choice_y): str(computer_choice_x)}
+            computer_choice = {computer_choice_y: computer_choice_x}
             computer_choices[i] = computer_choice
             i += 1
         return computer_choices
@@ -226,9 +227,9 @@ class Choices:
                         f"0 and {self.grid_size-1} inclusive"
                     )
                 for j in range(self.player_increment):
-                    if player_choice_y in player_attack_positions[
+                    if int(player_choice_y) in player_attack_positions[
                             j] and player_attack_positions[
-                            j][player_choice_y] == player_choice_x:
+                            j][int(player_choice_y)] == int(player_choice_x):
                         raise ValueError(
                             "You cannot enter the same "
                             "coordinates twice"
@@ -237,7 +238,7 @@ class Choices:
                 print(f"Invalid data: {e}, please try again\n")
                 continue
             k += 1
-        player_attack_position = {player_choice_y: player_choice_x}
+        player_attack_position = {int(player_choice_y): int(player_choice_x)}
         player_attack_positions[self.player_increment] = player_attack_position
         self.player_increment += 1
         return player_attack_positions
@@ -253,16 +254,16 @@ class Choices:
             computer_choice_y = random.randint(0, self.grid_size-1)
             try:
                 for j in range(self.computer_increment):
-                    if str(computer_choice_y) in computer_attack_positions[
-                        j] and computer_attack_positions[j][str(
-                            computer_choice_y)] == str(computer_choice_x):
+                    if computer_choice_y in computer_attack_positions[
+                        j] and computer_attack_positions[j][
+                            computer_choice_y] == computer_choice_x:
                         raise ValueError(
                         )
             except ValueError:
                 continue
             k += 1
         computer_attack_position = {
-            str(computer_choice_y): str(computer_choice_x)}
+            computer_choice_y: computer_choice_x}
         computer_attack_positions[
             self.computer_increment] = computer_attack_position
         self.computer_increment += 1
