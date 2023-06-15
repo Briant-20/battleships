@@ -26,3 +26,16 @@ They will then choose which coordinates to attack on the computers grid.
 The computer will generate its own random coordinates for both ship and attack positions.
 
 Both sides will continue to enter attack coordinates until they sink all of their opponents ships at which point a message will be displayed declaring the winner and the game will end.
+
+### Future Features
+
+I would like to add a multiplayer aspect in the future where two users could play against each other.
+
+## Tools & Technologies Used
+
+- [Python](https://www.python.org) used as the back-end programming language.
+- [Git](https://git-scm.com) used for version control. (`git add`, `git commit`, `git push`)
+- [GitHub](https://github.com) used for secure online code storage.
+- [Heroku](https://www.heroku.com) used for hosting the deployed back-end site.
+- [Blessed](https://blessed.readthedocs.io/en/latest/terminal.html) used to add color to the terminal.
+- [Visual Studio Code](https://code.visualstudio.com/) used as a source-code editor for development.
