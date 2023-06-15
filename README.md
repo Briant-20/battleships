@@ -199,3 +199,7 @@ You can fork this repository by using the following steps:
 | --- | --- | --- |
 | [Markdown Builder](https://traveltimn.github.io/markdown-builder) | README and TESTING | tool to help generate the Markdown files |
 | [Blessed](https://pypi.org/project/blessed/) |Imported library | Library to add color to the terminal
+
+### Acknowledgements
+
+- I would like to thank my Code Institute mentors, [Tim Nelson](https://github.com/TravelTimN) and [Aleksei Konovalov](https://code-institute-room.slack.com/team/U029X3N2WN9) for their support throughout the development of this project.
