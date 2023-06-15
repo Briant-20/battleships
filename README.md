@@ -37,5 +37,65 @@ I would like to add a multiplayer aspect in the future where two users could pla
 - [Git](https://git-scm.com) used for version control. (`git add`, `git commit`, `git push`)
 - [GitHub](https://github.com) used for secure online code storage.
 - [Heroku](https://www.heroku.com) used for hosting the deployed back-end site.
-- [Blessed](https://blessed.readthedocs.io/en/latest/terminal.html) used to add color to the terminal.
 - [Visual Studio Code](https://code.visualstudio.com/) used as a source-code editor for development.
+
+## Data Model
+
+### Classes & Functions
+
+The program uses classes as a blueprint for the project's objects (OOP). This allows for the object to be reusable.
+
+```python
+class GameArea:
+    """
+    This is a class for all the functions that create the game area.
+    """
+    def __init__(self, num_of_ships, grid_size,
+                 positions_dictionary, attack_position,
+                 user, attack):
+        """
+        Initialise GameArea with attributes.
+        """
+        self.num_of_ships = num_of_ships
+        self.grid_size = grid_size
+        self.positions_dictionary = positions_dictionary
+        self.attack_position = attack_position
+        self.user = user
+        self.attack = attack
+        global num_ships
+        num_ships = self.num_of_ships
+
+class Choices:
+    """
+    A class containing all the functions that get a
+    choice from the player and computer.
+    """
+    def __init__(self, num_of_ships, grid_size,
+                 player_increment, computer_increment):
+        """
+        Initialise Choices with attributes.
+        """
+        self.num_of_ships = num_of_ships
+        self.grid_size = grid_size
+        self.player_increment = player_increment
+        self.computer_increment = computer_increment
+```
+
+The primary functions used on this application are:
+
+- `define_grid()`
+    - Sets how big the grid will be depending on the users input.
+- `print_grid()`
+    - Prints out the grid that was defined with extra symbols depending on the users input.
+- `get_player_choice()`
+    - Gets inputs from the user and sets it as the choice for their ship positions.
+- `get_computer_choice()`
+    - Generates random numbers within a certain range to use as the computers ship positions.
+- `get_player_attack_position()`
+    - Gets inputs from the user and sets it as the choice for their attack positions.
+- `get_computer_attack_position()`
+    -  Generates random numbers within a certain range to use as the computers attack positions.
+- `get_game_parameters()`
+    - Get inputs from the user that set the games basic parameters such as the number of ships in play and the grid size.
+- `play_game()`
+    - Run all program functions.
