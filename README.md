@@ -99,3 +99,14 @@ The primary functions used on this application are:
     - Get inputs from the user that set the games basic parameters such as the number of ships in play and the grid size.
 - `play_game()`
     - Run all program functions.
+
+### Imports
+
+I've used the following Python packages and/or external imported packages.
+
+- `blessed`: used for including color in the terminal
+- `random`: used to get a random choice from a list
+
+## Testing
+
+For all testing, please refer to the [TESTING.md](TESTING.md) file.
