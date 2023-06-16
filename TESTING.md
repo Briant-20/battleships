@@ -17,7 +17,7 @@ I have used the recommended [PEP8 CI Python Linter](https://pep8ci.herokuapp.com
 Defensive programming was manually tested with the below user acceptance testing:
 
 | User Action | Expected Result | Pass/Fail | Comments |
-
+| --- | --- | --- | --- |
 | Enter either 1 2 or 3 to the terminal | Show the rules for 1 play the game for 2 and exit for 3 | Pass | Works as expected and resets if there is an invalid input | 
 
 | User enters values for number of ships and grid size | Creates a grid with the specified size and number of ships | Pass | Stops the user from entering invalid inputs and from entering too many ships for the specified grid size | 
@@ -33,5 +33,6 @@ Defensive programming was manually tested with the below user acceptance testing
 I had an issue when trying to update variables inside a class that were defined at the top of the page and it was causing unexpected results. To fix this I defined them as global variables before using them in the classes to access the correct data. 
 
 There was a bug occurring where inputs that were leading with 0 were allowed to pass through and would break the game. I fixed this by converting all the inputs to int so that if for example 01 was entered it would be converted to 1.
+
 
 There are no remaining bugs that I am aware of.
