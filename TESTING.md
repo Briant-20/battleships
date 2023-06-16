@@ -25,3 +25,13 @@ Defensive programming was manually tested with the below user acceptance testing
 | User enters the x and y values for their ship coordinates| Display the ships on the grid to the user in their chosen position | Pass | Will only allow coordinates to be entered once and they must be within the grid space | 
 
 | The user enters x and y values for the coordinates they wish to attack on the computers grid | A red X will appear in their chosen position on the computers grid if they miss the location of the computers ships and an orange * will appear if they chose the correct position | Pass | Will only allow coordinates to be entered once and they must be within the grid space | 
+
+## Bugs
+
+**Fixed Bugs**
+
+I had an issue when trying to update variables inside a class that were defined at the top of the page and it was causing unexpected results. To fix this I defined them as global variables before using them in the classes to access the correct data. 
+
+There was a bug occurring where inputs that were leading with 0 were allowed to pass through and would break the game. I fixed this by converting all the inputs to int so that if for example 01 was entered it would be converted to 1.
+
+There are no remaining bugs that I am aware of.
