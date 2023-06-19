@@ -163,8 +163,8 @@ class Choices:
                             "You cannot enter the same coordinates twice, "
                             "try again"
                         )
-            except ValueError as e:
-                print(f"Invalid data: {e}, please try again\n")
+            except ValueError as exc:
+                print(f"Invalid data: {exc}, please try again\n")
                 continue
             player_choice = {int(player_choice_y): int(player_choice_x)}
             player_choices[i] = player_choice
@@ -235,8 +235,8 @@ class Choices:
                             "You cannot enter the same "
                             "coordinates twice"
                         )
-            except ValueError as e:
-                print(f"Invalid data: {e}, please try again\n")
+            except ValueError as exc:
+                print(f"Invalid data: {exc}, please try again\n")
                 continue
             k += 1
         player_attack_position = {int(player_choice_y): int(player_choice_x)}
@@ -283,8 +283,8 @@ class Choices:
             try:
                 if int(choice) <= 0 or int(choice) > 3:
                     raise ValueError()
-            except ValueError as e:
-                print(f"Invalid data: {e}, please try again\n")
+            except ValueError as exc:
+                print(f"Invalid data: {exc}, please try again\n")
                 continue
             if int(choice) == 1:
                 print()
@@ -292,7 +292,8 @@ class Choices:
                     ":This is a game of battleships played "
                     "against the computer.\n"
                     ":In the beginning you will set how many ships are "
-                    "in play and the grid size.\n"
+                    "in play and the grid size. "
+                    "The max grid is 27 with 729 ships\n"
                     ":You will enter the coordinates for your ships "
                     ":You will be able to see the location of your ships "
                     "but not the computers.\n"
@@ -313,12 +314,12 @@ class Choices:
             if int(choice) == 2:
                 while True:
                     print("Choose game parameters")
-                    print("Enter the number of ships(Recommended amount is 3)")
-                    ships = input()
                     print("Enter the grid size "
                           "(e.g. entering 5 will create a 5 x 5 grid area. "
                           "Recommended amount is 5)")
                     grid = input()
+                    print("Enter the number of ships(Recommended amount is 3)")
+                    ships = input()
                     try:
                         if int(grid) <= 0 or int(ships) <= 0:
                             raise ValueError()
@@ -329,8 +330,8 @@ class Choices:
                         if int(grid) > 27 or int(ships) > 729:
                             raise ValueError("You have exceeded the limit of "
                                              "729 ships and 27 grid size")
-                    except ValueError as e:
-                        print(f"Invalid data: {e}, please try again\n")
+                    except ValueError as exc:
+                        print(f"Invalid data: {exc}, please try again\n")
                         continue
                     break
             if int(choice) == 3:
