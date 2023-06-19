@@ -4,10 +4,11 @@ from blessed import Terminal
 
 # Initialise variables
 term = Terminal()
-choice_increment = 1
-computer_hit = 0
-player_hit = 0
-num_ships = 0
+# Uppercase global variables to be incremented within the functions
+CHOICE_INCREMENT = 1
+COMPUTER_HIT = 0
+PLAYER_HIT = 0
+NUM_SHIPS = 0
 player_attack_positions = {
 }
 player_attack_position = {"": ""}
@@ -33,8 +34,8 @@ class GameArea:
         self.attack_position = attack_position
         self.user = user
         self.attack = attack
-        global num_ships
-        num_ships = self.num_of_ships
+        global NUM_SHIPS
+        NUM_SHIPS = self.num_of_ships
 
     def define_grid(self):
         """
@@ -56,13 +57,13 @@ class GameArea:
         Print out the previously defined grid with different
         symbols depending on the player and computer choices.
         """
-        global player_hit
-        global computer_hit
-        global choice_increment
-        computer_hit = 0
+        global PLAYER_HIT
+        global COMPUTER_HIT
+        global CHOICE_INCREMENT
+        COMPUTER_HIT = 0
         grid = self.define_grid()
         if self.user == "Player":
-            player_hit = 0
+            PLAYER_HIT = 0
             print(term.blue(f"{self.user} grid"))
         else:
             print(term.red(f"{self.user} grid"))
@@ -81,18 +82,18 @@ class GameArea:
                         if self.user == "Computer":
                             peg = 0
                         if self.attack:
-                            for j in range(choice_increment):
+                            for j in range(CHOICE_INCREMENT):
                                 if position:
                                     if y in self.attack_position[
                                         j] and self.attack_position[j][
                                             y] == x:
                                         peg = term.orange("*")
                                         if self.user == "Player":
-                                            player_hit += 1
+                                            PLAYER_HIT += 1
                                         if self.user == "Computer":
-                                            computer_hit += 1
+                                            COMPUTER_HIT += 1
                     if self.attack:
-                        for k in range(choice_increment):
+                        for k in range(CHOICE_INCREMENT):
                             if position is False and peg != term.orange("*"):
                                 if y in self.attack_position[
                                     k] and self.attack_position[
@@ -103,7 +104,7 @@ class GameArea:
             print()
         print()
         if self.attack and self.user == "Computer":
-            choice_increment += 1
+            CHOICE_INCREMENT += 1
 
 
 # Define class Choices
@@ -371,11 +372,11 @@ def play_game():
             player_attack, "Computer", True)
         player_grid.print_grid()
         computer_grid.print_grid()
-        if computer_hit == num_ships:
+        if COMPUTER_HIT == NUM_SHIPS:
             print("Game over, congratulations you win!")
             print()
             break
-        elif player_hit == num_ships:
+        elif PLAYER_HIT == NUM_SHIPS:
             print("Game over, the computer sunk all your ships.")
             print()
             break
